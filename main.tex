@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx} % Required for inserting images
+
+\title{Probability Theory Notes}
+\author{Alex Gregory}
+\date{July 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Distributions}
+
+These notes follow \cite{ross98}.
+
+\subsection{Uniform Distribution}
+
+The uniform distribution is a distribution where every value equally likely. An example of a uniform distribution would be,
+\begin{equation}
+    f(x) =
+    \begin{cases}
+        1 \quad \text{if} \quad 0 < x < 1 \\
+        0 \quad \text{Otherwise}
+    \end{cases}
+\end{equation}
+The integral of this is, $\int_{-\infty}^{\infty} f(x) \, dx = 1 - 0 = 1$. If $0 < a <= b < 1$ the probability that $x$ is within $a$ and $b$ is,
+\begin{equation*}
+    f(a, b) = \int_{a}^{b} f(x) \, dx = b - a.
+\end{equation*}
+The general for of the uniform distribution on the range $0 < \alpha < \beta < 1$ is,
+\begin{equation}
+    f(x) =
+    \begin{cases}
+        \frac{1}{\beta - \alpha} \quad & \text{if} \quad \alpha < x < \beta \\
+        0 \quad & \text{otherwise}
+    \end{cases}
+\end{equation}
+This is a probability distribution since $\int_{-\infty}^{\infty} \frac{1}{\beta - \alpha} \, dx = \int_{\alpha}^{\beta} \frac{1}{\beta - \alpha} = \frac{\beta - \alpha}{\beta - \alpha} = 1$. The expected value and variance of the uniform distribution are,
+\begin{align*}
+    E(X) = & \int_{-\infty}^{\infty} x f(x) \, dx \\
+         = & \int_{\alpha}^{\beta} \frac{x}{\beta - \alpha} \, dx \\
+         = & \frac{x^2}{2(\beta - \alpha)} \Bigr|^{\beta}_{\alpha} \\
+         = & \frac{\beta^2 - \alpha^2}{2(\beta - \alpha)} = \frac{(\beta - \alpha)(\beta + \alpha)}{2(\beta - \alpha)} = \frac{\beta + \alpha}{2}.
+\end{align*}
+So, the expected value is the midpoint $\alpha$ and $\beta$. To find the variance, we first need $E(X^2)$,
+\begin{align*}
+    E(X^2) = & \int_{-\infty}^{\infty} x^2 f(x) \, dx \\
+           = & \int_{\beta}^{\alpha} \frac{x^2}{\beta - \alpha} \, dx \\
+           = & \frac{x^3}{3(\beta - \alpha)} \Bigr|^{\beta}_{\alpha} \\
+           = & \frac{\beta^3 - \alpha^3}{3(\beta - \alpha)} = \frac{\beta^2 + \alpha \beta + \alpha^2}{3}
+\end{align*}
+And so,
+\begin{align}
+    Var(X) = & E(X^2) - E(X)^2 \\ 
+           = & \frac{\beta^2 + \alpha \beta + \alpha^2}{3} - \frac{\beta^2 + 2\alpha \beta + \alpha^2}{4} \\
+           = & \frac{\beta^2 - 2\alpha\beta + \alpha^2}{12} \\
+           = & \frac{(\alpha - \beta)^2}{12}
+\end{align}
+
+\subsubsection{Example}
+
+Consider a random chord of a circle. What is the probability that the length of the chord will be greater than the side of the equilateral triangle inscribed in that circle?
+
+First we need to know the length of the side of the equilateral triangle. Split the equilateral triangle into 3 smaller isoceles with with a point in the centre of the circle. Two of the sides in these isosceles triangles will have length of r. Split one of these triangles into two right angle triangles. One of the sides will have length r and one of the angles with be 60 degrees. Using trigonometry, the length of the opposite side is $r \sin \frac{\pi}{3}$.
+
+Therefore, the length of one of the sides of the equilateral triangle is,
+$$
+    l = 2 r \sin \frac{\pi}{3}.
+$$
+A chord is formed when a straight line is drawn between two points on a circle. If we take two corners on the equilateral triangle join them at the centre of the circle, the angle will be 60 degrees. Let us call this length $l$. If we follow this same process with two random points, the chord, $m$, between them will be larger than $l$ if its angle is greater than $60$ degrees.
+
+We need to know the probability this angle is greater than $60$ degrees.
+
+If we pick a point at random and pick another point at random will be $\frac{1}{3}$.
+\bibliography{bibliography}
+\bibliographystyle{ieeetr}
+
+\end{document}
