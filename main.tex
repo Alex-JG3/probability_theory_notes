@@ -10,6 +10,41 @@
 
 \maketitle
 
+\section{Combinations}
+
+Suppose we have the characters ABCDEF. If we select three characters from the set, how many possible \textit{combinations} of characters are there?
+
+Let us name the characters we select $c_1$, $c_2$, and $c_3$. The first character, $c_1$ has 5 options: A, B, C, D or E. However, $c_2$ has only four options and $c_3$ has three options. This means in total, there are, $5 \cdot 4 \cdot 3 = 60$ options. This is a lot of options, so lets us consider the string of characters ABC and looks two characters $c_1$ and $c_2$.
+
+In this case, there are $3 \cdot 2 = 6$ options. The possibilities are as follows,
+
+$$
+\begin{matrix}
+    A & B \\
+    A & C \\
+    B & A \\
+    B & C \\
+    C & A \\
+    C & B
+\end{matrix}
+$$
+In this case, we are counting $AB$ and $BA$ as two separate entries. How many combinations are there if the order does not matter? In this case there are three combinations. Essentially, we divide the total number of unordered combinations by the number of times each ordered combination is repeated.
+
+How do we count the number of times each unordered combination is repeated? Suppose we want to know how many times $A$ and $B$ are repeated. The character $A$ can be in position $1$ or position $2$, in these cases $B$ must be in $2$ or $1$ respectively. So, when $A$ can be in either position, $B$ has only one position it can be in (it cannot be in the same position as $A$). Therefore $A$ is repeated $2 \cdot 1$ times.
+
+Let us consider a more complicated example where we have the string $ABCDE$ and want to find the combinations of three characters. The total number of unordered combinations is $5 \cdot 4 \cdot 3 = 60$. Now how many times is each unordered combination repeated? The first character, $c_1$ has three options, the second has two options and the third has one option. So, each unordered combination is repeated $3 \cdot 2 \cdot 1 = 6$ times. Thus, in total there are,
+$$
+\frac{5 \cdot 4 \cdot 3}{3 \cdot 2 \cdot 1} = \frac{60}{6} = 10.
+$$
+We can generalise this to say for a sequence of $n$ options where we want to choose $r$ options, there are,
+$$
+\frac{n(n - 1)(n - 2)\dots(n - r + 1)}{r!} = \frac{n!}{(n - r)!r!} =
+\begin{bmatrix}
+n \\ r
+\end{bmatrix}
+$$
+possible combinations. This is sometimes called $n$ choose $r$.
+
 \section{Distributions}
 
 These notes follow \cite{ross98}.
@@ -73,6 +108,48 @@ A chord is formed when a straight line is drawn between two points on a circle. 
 We need to know the probability this angle is greater than $60$ degrees.
 
 If we pick a point at random and pick another point at random will be $\frac{1}{3}$.
+
+\subsection{Exponential Distribution}
+
+A random variable is said to have and exponential distribution if it has the following formula.
+$$
+    f(x) = 
+    \begin{cases}
+        \lambda e ^ {-\lambda x} \quad & \text{if} \, x \geq 0 \\
+        0 \quad & \text{otherwise} \\
+    \end{cases}
+$$
+We can find the mean and the variance from the moment generating function. This is calculated using integration by parts.
+\begin{align}
+    E(X^n) & = \int_{0}^{\infty} x^n \lambda e^{-\lambda x} \\
+           & = - x^n e^{-\lambda x} \Bigr|^\infty_0 + \frac{n}{\lambda}\int_{0}^{\infty} x^{n - 1} e^{-\lambda x} \\
+           & = 0 + \frac{n}{\lambda} E(X^{n - 1})
+\end{align}
+Therefore, the mean is,
+\begin{equation}
+    E(X) = \frac{1}{\lambda}.
+\end{equation}
+The second moment is,
+\begin{equation}
+    E(X) = \frac{2}{\lambda^2}.
+\end{equation}
+Thus, the variance is,
+\begin{equation}
+    Var(X) = E(X^2) - E(X)^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \frac{1}{\lambda^2}
+\end{equation}
+The exponential distribution is often used the model the time until and event happens. For example the time until a phone call ends.
+
+\subsection{Gamma Distribution}
+
+A random variable has a gamma distribution with $\lambda > 0$ and $\alpha > 0$ if its density is given by,
+\begin{equation}
+    f(x) =
+    \begin{cases}
+        \frac{\lambda e^{-\lambda x} (\lambda x)^{\alpha - 1}}{\Gamma(\alpha)} & x \geq 0 \\
+        0 & x < 0
+    \end{cases}
+\end{equation}
+Where $\Gamma(\alpha)$ is the gamma function, $\Gamma(\alpha) = \int_0^\infty e^{-y} y^{\alpha - 1} \, dy = (\alpha - 1)\Gamma(\alpha - 1)$.
 \bibliography{bibliography}
 \bibliographystyle{ieeetr}
 
