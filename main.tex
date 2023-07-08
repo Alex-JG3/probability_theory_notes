@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{tikz}
 \usepackage{graphicx} % Required for inserting images
 
 \title{Probability Theory Notes}
@@ -10,41 +11,97 @@
 
 \maketitle
 
+\section{Permutations}
+
+Suppose we have a set of five characters $X = \{ A, B, C, D \}$. Suppose we select two characters at random from $X$ without replacement, how many possible combinations of characters are there?
+
+For the first character, $c_1$, there are 4 possible outcomes: $A$, $B$, $C$, or $D$. For the second character, $c_2$, there are 3 possible outcomes depending on the $c_1$. Let us visualise these outcomes as a tree.
+
+\begin{tikzpicture}
+[
+    level 1/.style = {sibling distance = 2cm},
+    level 2/.style = {sibling distance = 0.7cm},
+]
+\node {} [sibling distance = 2.5cm]
+    child {
+        node {A}
+        child {node {B}}
+        child {node {C}}
+        child {node {D}}
+        edge from parent
+    } 
+    child {
+        node {B}
+        child {node {A}}
+        child {node {C}}
+        child {node {D}}
+        edge from parent
+    } 
+    child {
+        node {C}
+        child {node {A}}
+        child {node {C}}
+        child {node {D}}
+        edge from parent
+    } 
+    child {
+        node {D}
+        child {node {A}}
+        child {node {B}}
+        child {node {C}}
+        edge from parent
+    };
+\end{tikzpicture}
+
+From the tree above, it is clear there are $4 \cdot 3 = 12$ permutations. In general, if you have a game where there are $m$ steps and at each step, $i$, there are $n_i$ choices the total number of permutations is,
+$$
+    n_1 \times n_2 \times \dots \times n_m.
+$$
+
 \section{Combinations}
 
-Suppose we have the characters ABCDEF. If we select three characters from the set, how many possible \textit{combinations} of characters are there?
+A combination is like a permutation but where the order is not important. So, where before we counted $AB$ as different to $BA$, now we treat them as the same.
 
-Let us name the characters we select $c_1$, $c_2$, and $c_3$. The first character, $c_1$ has 5 options: A, B, C, D or E. However, $c_2$ has only four options and $c_3$ has three options. This means in total, there are, $5 \cdot 4 \cdot 3 = 60$ options. This is a lot of options, so lets us consider the string of characters ABC and looks two characters $c_1$ and $c_2$.
-
-In this case, there are $3 \cdot 2 = 6$ options. The possibilities are as follows,
-
+Suppose again we have the set $X = \{ A, B, C, D \}$ and we select two characters at random without replacement. We know from the previous section there are $4 \cdot 3 = 12$ permutations of $X$. The possible permutations are as follows,
 $$
 \begin{matrix}
-    A & B \\
-    A & C \\
-    B & A \\
-    B & C \\
-    C & A \\
-    C & B
+    AB & BA \\
+    AC & CA \\
+    AD & DA \\
+    BC & CB \\
+    BD & DB \\
+    CD & DC \\
 \end{matrix}
 $$
-In this case, we are counting $AB$ and $BA$ as two separate entries. How many combinations are there if the order does not matter? In this case there are three combinations. Essentially, we divide the total number of unordered combinations by the number of times each ordered combination is repeated.
+Notice in the list of permutations each combination is repeated twice, for example $AB$ and $BA$. Therefore, if we divide the total number of permutations by the number of times each combination is repeated, we get the total number of combinations. For the example, this number of combinations is,
+$$
+\frac{4 \cdot 3}{2} = 6
+$$
+How do we find the number of times each combination is repeated in the list of permutations? Suppose for $X$ we want to know the number of times the combination $AB$ is repeated. $A$ can appear in the first or second position. Depending on the position of $A$, there is only one place where $B$ can be. So, the combination $AB$ is repeated, $2 \cdot 1 = 2$ times. The characters $AB$ are not important, in-fact any combination of characters is repeated $2$ times.
 
-How do we count the number of times each unordered combination is repeated? Suppose we want to know how many times $A$ and $B$ are repeated. The character $A$ can be in position $1$ or position $2$, in these cases $B$ must be in $2$ or $1$ respectively. So, when $A$ can be in either position, $B$ has only one position it can be in (it cannot be in the same position as $A$). Therefore $A$ is repeated $2 \cdot 1$ times.
-
-Let us consider a more complicated example where we have the string $ABCDE$ and want to find the combinations of three characters. The total number of unordered combinations is $5 \cdot 4 \cdot 3 = 60$. Now how many times is each unordered combination repeated? The first character, $c_1$ has three options, the second has two options and the third has one option. So, each unordered combination is repeated $3 \cdot 2 \cdot 1 = 6$ times. Thus, in total there are,
+Suppose now that we select three characters from $X$ without replacement rather than two. The number of permutations is $4 \cdot 3 \cdot 2 = 24$. Consider the combination $ABC$. Again, again can be in the first, second or third position. Depending on the position of $A$, $B$ can be in two positions. Finally, depending on the position $A$ and $B$, $C$ must be in the remaining position. So each combination is repeated $3 \cdot 2 \cdot 1 = 6$ times. So, overall there are,
 $$
-\frac{5 \cdot 4 \cdot 3}{3 \cdot 2 \cdot 1} = \frac{60}{6} = 10.
+    \frac{4 \cdot 3 \cdot 2}{3 \cdot 2 \cdot 1} = \frac{24}{6} = 4,
 $$
-We can generalise this to say for a sequence of $n$ options where we want to choose $r$ options, there are,
+combinations. The list of combinations are as follows,
 $$
-\frac{n(n - 1)(n - 2)\dots(n - r + 1)}{r!} = \frac{n!}{(n - r)!r!} =
-\begin{bmatrix}
-n \\ r
-\end{bmatrix}
+\begin{matrix}
+    ABC \\    
+    ABD \\
+    BCD \\
+    CAD \\
+\end{matrix}
 $$
-possible combinations. This is sometimes called $n$ choose $r$.
-
+Now consider the more general case. Suppose our set, $X$ has $n$ elements, and we want to find the number of combinations of length $r$ we can get from $X$. In English, the number of combinations is,
+$$
+\text{Number of combinations} = \frac{\text{Number of permutations}}{\text{Number of times each combination is repeated}}
+$$
+The number of permutations is $\frac{n!}{(n - r)!}$. The number of times each combination is repeated is $r!$. So, our formula becomes,
+$$
+\text{Number of combinations} = \frac{n!}{(n - r)!r!} = 
+\begin{pmatrix} n \\ r \end{pmatrix}.
+$$
+The symbol $\begin{pmatrix}n \\ r\end{pmatrix}$ is referred to in English as $n$ choose $r$.
 \section{Distributions}
 
 These notes follow \cite{ross98}.
