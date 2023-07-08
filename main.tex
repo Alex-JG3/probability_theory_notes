@@ -102,6 +102,45 @@ $$
 \begin{pmatrix} n \\ r \end{pmatrix}.
 $$
 The symbol $\begin{pmatrix}n \\ r\end{pmatrix}$ is referred to in English as $n$ choose $r$.
+
+\subsection{Binomial Distribution}
+Suppose we flip a coin 10 times. What is the probability we get $3$ heads? Naive guess might be 0.3 but we will see that is not the case.
+
+We could get three heads in the first three tosses.
+$$
+    HHHTTTTTTT
+$$
+The probability of this event is $0.5 ^ {10}$. Equally, we could get the heads in the final three tosses.
+$$
+    TTTTTTTHHH
+$$
+The probability of this event is again $0.5 ^ {10}$. Since we are throwing a fair coin, the probability of any combination of ten heads and tails is $0.5 ^ {10}$. So, the probability of getting three heads is $0.5 ^ {10}$ multiplied by the number.
+
+To count the number of combinations of three heads in ten tosses, we can use $n$ choose $r$ where $n$ is 10 and $r$ is three. The number of combinations is,
+$$
+    \begin{pmatrix}10 \\ 3\end{pmatrix} = \frac{10!}{7!3!} = \frac{720}{6} = 120
+$$
+Therefore, the probability of getting a three heads in ten tosses is,
+$$
+    120 \cdot 0.5 ^ {10} = 0.1171875
+$$
+Why do we count the number of combinations and not the number of permutations? First, label the heads of each coin toss as $X = \{ H_1, H_2, \dots, H_{10} \}$. The number of length three permutations for $X$ is,
+$$
+    10 \cdot 9 \cdot 8 = 720.
+$$
+However, this counts $\{ H_1, H_2, H_3 \}$ and $\{ H_2, H_1, H_3 \}$ as two separate outcomes. Counting these as two separate outcomes is not important to us as both mean the same thing i.e the first three tosses were heads.
+
+In general, the formula for getting $i$ successes from $n$ trials is,
+$$
+    P(X = i) = \begin{pmatrix} n \\ i \end{pmatrix} p ^ {i} p ^ {n - i}.
+$$
+We also have a set of conditions such that a binomial distribution can be used:
+\begin{itemize}
+    \item The number of observations $n$ is fixed.
+    \item The probability $p$ does not change during the experiment.
+    \item The outcomes of each observation is either success or failure (heads or tails).
+    \item Each observation is independent on one another.
+\end{itemize}
 \section{Distributions}
 
 These notes follow \cite{ross98}.
