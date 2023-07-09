@@ -141,6 +141,41 @@ We also have a set of conditions such that a binomial distribution can be used:
     \item The outcomes of each observation is either success or failure (heads or tails).
     \item Each observation is independent on one another.
 \end{itemize}
+
+\section{Poisson Distribution}
+
+A random variable, $X$, that takes on values $0, 1, 2, \dots$ is said to follow the Poisson process if it has the following probability mass function
+\begin{equation}
+    P(X = i) = e ^ {-\lambda} \frac{\lambda ^ i}{i!}.
+\end{equation}
+For $i = 0, 1, 2, \dots$ and $\lambda > 0$. The Poisson distribution can approximate the binomial distribution with parameters $(n, p)$ if $n$ is large and $p$ is small. To see this suppose that $X$ is a random variable and let $\lambda = np$. Then,
+\begin{align*}
+    P(X = i) & = \frac{n!}{(n - i)!i!} p^i p^{n - i} \\
+             & = \frac{n!}{(n - i)!i!} \left( \frac{\lambda}{n} \right)^i \left( 1 - \frac{\lambda}{n} \right)^{n - i} \\
+             & = \frac{n(n-1)\dots(n-i+1)}{n^i} \frac{\lambda^i}{i!} \frac{(1 - \lambda / n)^n}{(1 - \lambda / n)^i}
+\end{align*}
+For large $n$ and moderate $\lambda$, we have
+\begin{align*}
+    \left(1 - \frac{\lambda}{n}\right)^n \approx e^{-\lambda}.
+\end{align*}
+The left most term approaches 1, and the denominator of the right most term approaches 1. Therefore,
+\begin{equation*}
+    P(X = i) = e^{-\lambda} \frac{\lambda^i}{i!}
+\end{equation*}
+So, if $n$ is large enough and $p$ is enough, the binomial distribution can be approximated with a Poisson distribution.
+
+\subsection{Time Interval Poisson Distributions}
+
+Suppose we have a random variable, $X$, that represents the number of successes that happen in an interval $t$. Such an event can be modelled with a Poisson distribution and in this section, we discuss how. This will only work if $\lambda$ satisfies the following assumptions:
+
+\begin{itemize}
+\item The probability that exactly one event occurs in the interval $h$ is $\lambda + f(h)$ where $f$ is a function for which $\lim_{h \xrightarrow{} 0}$ f(h) / h = 0
+\item The probability that two of more events occur in $h$ is equal to $o(h)$.
+\item For any integers $n, j_1, j_2, \dots, j_n$ and $n$ non-overlapping intervals, if we defined $E_i$ to be the even where exaction $j_i$ events occur in the $i$-th interval, then $E_1, E_2, \dots E_n$ are independent.
+\end{itemize}
+From these three assumptions, we can show that the number of events that happen at each interval of length $t$ can be modelled with a Poisson process.
+
+Let the interval be the interval $[0, t]$. Let $N(t)$ be the number of events that occur in the interval. The find the probability mass function for $P(N(t) = k)$, we first break the interval into non-overlapping sub-intervals of equal size, each with length $t / n$.
 \section{Distributions}
 
 These notes follow \cite{ross98}.
