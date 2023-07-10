@@ -166,16 +166,76 @@ So, if $n$ is large enough and $p$ is enough, the binomial distribution can be a
 
 \subsection{Time Interval Poisson Distributions}
 
+This section is taken from \cite{ross98}.
+
 Suppose we have a random variable, $X$, that represents the number of successes that happen in an interval $t$. Such an event can be modelled with a Poisson distribution and in this section, we discuss how. This will only work if $\lambda$ satisfies the following assumptions:
 
 \begin{itemize}
-\item The probability that exactly one event occurs in the interval $h$ is $\lambda + f(h)$ where $f$ is a function for which $\lim_{h \xrightarrow{} 0}$ f(h) / h = 0
+\item The probability that exactly one event occurs in the interval $h$ is $\lambda h + o(h)$ where $o(h)$ is any function, $f$ such that $\lim_{h \xrightarrow{} 0} f(h) / h = 0$
 \item The probability that two of more events occur in $h$ is equal to $o(h)$.
 \item For any integers $n, j_1, j_2, \dots, j_n$ and $n$ non-overlapping intervals, if we defined $E_i$ to be the even where exaction $j_i$ events occur in the $i$-th interval, then $E_1, E_2, \dots E_n$ are independent.
 \end{itemize}
 From these three assumptions, we can show that the number of events that happen at each interval of length $t$ can be modelled with a Poisson process.
 
-Let the interval be the interval $[0, t]$. Let $N(t)$ be the number of events that occur in the interval. The find the probability mass function for $P(N(t) = k)$, we first break the interval into non-overlapping sub-intervals of equal size, each with length $t / n$.
+Let the interval be $[0, t]$. Let $N(t)$ be the number of events that occur in the interval. We want to find the probability mass function $P(N(t) = k)$. First, we begin by breaking down the interval into non-overlapping sub-intervals of length $t / n$.
+
+Let $P(N_1(t) = k)$ be the probability that $k$ sub-intervals have exactly one event happen in them. Let $P(N_2(t) = k)$ be the probability that one of the sub-intervals $N(t) = k$ and at least one of the sub-intervals has two or more events happen in it. Let us first show that $P(N_2(t) = k)$ tends to zero as $n$ approaches infinity.
+\begin{align*}
+    P(N_2(t) = k) & \leq P(\text{At least one sub-interval has 2 or more events}) \\
+    & = P(\cup_{i=1}^{n} \text{$i$-th sub-interval has 2 or more events}) \\
+    & \leq \sum_{i=1}^{n} P(\text{$i$-th sub-interval has 2 or more events})) \\
+    & = \sum_{i=1}^{n} o(t / n) \\
+    & = n \, o(t / n) \\
+    & = t \frac{o(t / n)}{t / n} \\
+\end{align*}
+By our assumptions above, $o(t / n) / (t / n)$ tends to $0$ as $n$ approaches infinity. Therefore,
+\begin{equation*}
+    P(N_2(t) = k) \xrightarrow{n \rightarrow{} \infty} 0.
+\end{equation*}
+The first and second assumptions imply that the probability of getting $0$ events happen in a sub-interval is,
+\begin{equation*}
+    1 - \lambda h - o(h) - o(h) = 1 - \lambda h - o(h).
+\end{equation*}
+From the third assumption, $P(N_1(t) = k)$ is a binomial distribution. Therefore,
+\begin{align*}
+    P(N_1(t) = k) & =
+    \begin{pmatrix} n \\ k \end{pmatrix}
+    \left( \frac{\lambda t}{n} + o\left( \frac{t}{n} \right) \right) ^ k
+    \left( 1 - \frac{\lambda t}{n} - o\left(\frac{t}{n}\right) \right) ^ {n - k} \\
+    & =
+    \begin{pmatrix} n \\ k \end{pmatrix}
+    \frac{n}{n} \left( \frac{\lambda t}{n} + o\left( \frac{t}{n} \right) \right) ^ k
+    \left( 1 - \frac{n}{n} (\frac{\lambda t}{n} - o\left(\frac{t}{n}\right))\right) ^ {n - k} \\
+    & =
+    \begin{pmatrix} n \\ k \end{pmatrix}
+    \frac{1}{n} \left( \lambda t + t \frac{o(t / n)}{t / n} \right) ^ k
+    \left( 1 - \frac{1}{n} (\lambda t - t\frac{o(t / n)}{t / n} ) \right) ^ {n - k} \\
+\end{align*}
+Since,
+\begin{equation*}
+    \frac{1}{n} \left( \lambda t + t \frac{o(t / n)}{t / n} \right) \xrightarrow{n \rightarrow \infty} \lambda t,
+\end{equation*}
+We get,
+\begin{align*}
+    P(N_1(t) = k) & =
+    \begin{pmatrix} n \\ k \end{pmatrix}
+    \left( \frac{\lambda t}{n} \right)^k
+    \left( 1 - \frac{\lambda t}{n} \right) ^ {n - k} \\
+    & =
+    \begin{pmatrix} n \\ k \end{pmatrix}
+    \left( \frac{\lambda t}{n} \right)^k
+    \frac{(1 - \frac{\lambda t}{n})^n}{(1 - \frac{\lambda t}{n})^k} \\
+    & =
+    \frac{n(n - 1)\dots(n - k + 1)}{n^k}
+    \frac{(\lambda t)^k}{k!}
+    \frac{(1 - \frac{\lambda t}{n})^n}{(1 - \frac{\lambda t}{n})^k} \\
+\end{align*}
+The first term tends to 1 as $n$ approaches infinity. $(1 - \frac{\lambda t}{n})^n$ approaches $e^{-\lambda}$ and $(1 - \frac{\lambda t}{n})^k$ approaches 1 as $n$ approaches infinity. Therefore,
+\begin{equation*}
+    P(N(t) = k) = P(N_1(t) = k) = \frac{(\lambda t) ^ n}{n} e^{-\lambda}.
+\end{equation*}
+Therefore, this is a Poisson process.
+
 \section{Distributions}
 
 These notes follow \cite{ross98}.
