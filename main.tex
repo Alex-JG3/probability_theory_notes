@@ -11,6 +11,14 @@
 
 \maketitle
 
+\section{Bernoulli}
+
+Suppose we flip a coin ten times. What is the probability we get three heads? My first guess would be 0.3. In this section, we will see that this is not the case. In order to calculate this probability, we first need to discuss permutations and combinations.
+
+\subsection{Permutations}
+
+Suppose we toss five coins and count the number of heads we get. Let $X$ be a random variable with the following outcomes $X = \{h_1, h_2, h_3, h_4, h_5\}$  where $h_i$ represents getting a heads on the $i$-th toss.
+
 \section{Permutations}
 
 Suppose we have a set of five characters $X = \{ A, B, C, D \}$. Suppose we select two characters at random from $X$ without replacement, how many possible combinations of characters are there?
@@ -143,6 +151,41 @@ We also have a set of conditions such that a binomial distribution can be used:
 \end{itemize}
 
 \section{Poisson Distribution}
+
+Suppose we have a very bias coin which has a very low probability of being heads. Suppose we flip this coin an infinite number of times. How long do we have to wait until we get $k$ heads?
+
+Creating a tree diagram for three coin tosses is a lot of work let alone an infinite number of coin tosses so we cannot do this with a diagram. The binomial distribution works only for a fixed number of coin tosses so we cannot use that without some work. Let us work out what happens when the number of coin tosses, $n$, tends to infinity. Let us start by defining the following quantity, 
+\begin{equation*}
+    \lambda = p * n.
+\end{equation*}
+Where $p$ is the probability of getting heads and $k$ is the number of coin tosses. Let us plug this into the formula for the binomial distribution and give a limit as $n$ approaches infinity.
+\begin{align*}
+    P(X = k) & = \lim_{n \rightarrow \infty} \frac{n!}{k!(n - k)!}p^k(1 - p)^{n - k} \\
+             & = \lim_{n \rightarrow \infty} \frac{n!}{k!(n - k)!} \left(\frac{\lambda}{n}\right)^k \left(1 - \frac{\lambda}{n} \right)^{n - k} \\
+             & = \frac{\lambda ^ k}{k!} \lim_{n \rightarrow \infty} \frac{n!}{(n - k)!} \frac{1}{n^k} \left(1 - \frac{\lambda}{n} \right)^{n - k} \\
+             & = \frac{\lambda ^ k}{k!} \lim_{n \rightarrow \infty} \frac{n!}{(n - k)!} \frac{1}{n^k} \left(1 - \frac{\lambda}{n} \right)^{n - k} \\
+             & = \frac{\lambda ^ k}{k!} \lim_{n \rightarrow \infty} \frac{n!}{n^k(n - k)!} \left(1 - \frac{\lambda}{n}\right)^{-k}\left(1 - \frac{\lambda}{n} \right)^{n} \\
+\end{align*}
+Now we calculate the limits of each term separately. For the first term, we have,
+\begin{equation*}
+    \lim_{n \rightarrow \infty} \frac{n!}{n^k(n - k)!} = \lim_{n \rightarrow \infty} \frac{n(n-1)(n-2)\dots(n-k+1)}{n^k} = 1
+\end{equation*}
+For the second term, we have,
+\begin{equation*}
+    \lim_{n \rightarrow \infty} \left(1 - \frac{\lambda}{n}\right)^{-k} = (1 - 0) ^{-k} = 1
+\end{equation*}
+For the final term, we use the fact that,
+\begin{equation}
+    \lim_{n \rightarrow \infty} \left( 1 + \frac{x}{n} \right)^n = e^x
+\end{equation}
+By letting $x = - \lambda$, we get,
+\begin{equation}
+    \lim_{n \rightarrow \infty} \left( 1 - \frac{\lambda}{n} \right)^n = e^{-\lambda}.
+\end{equation}
+Finally bringing it all together,
+\begin{align*}
+P(X = k) = \frac{\lambda ^ k}{k!} \lim_{n \rightarrow \infty} \frac{n!}{n^k(n - k)!} \left(1 - \frac{\lambda}{n}\right)^{-k}\left(1 - \frac{\lambda}{n} \right)^{n} = \frac{\lambda ^ k}{k!} e ^ {-\lambda}
+\end{align*}
 
 A random variable, $X$, that takes on values $0, 1, 2, \dots$ is said to follow the Poisson process if it has the following probability mass function
 \begin{equation}
