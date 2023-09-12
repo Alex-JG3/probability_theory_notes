@@ -187,97 +187,54 @@ Finally bringing it all together,
 P(X = k) = \frac{\lambda ^ k}{k!} \lim_{n \rightarrow \infty} \frac{n!}{n^k(n - k)!} \left(1 - \frac{\lambda}{n}\right)^{-k}\left(1 - \frac{\lambda}{n} \right)^{n} = \frac{\lambda ^ k}{k!} e ^ {-\lambda}
 \end{align*}
 
-A random variable, $X$, that takes on values $0, 1, 2, \dots$ is said to follow the Poisson process if it has the following probability mass function
-\begin{equation}
-    P(X = i) = e ^ {-\lambda} \frac{\lambda ^ i}{i!}.
-\end{equation}
-For $i = 0, 1, 2, \dots$ and $\lambda > 0$. The Poisson distribution can approximate the binomial distribution with parameters $(n, p)$ if $n$ is large and $p$ is small. To see this suppose that $X$ is a random variable and let $\lambda = np$. Then,
-\begin{align*}
-    P(X = i) & = \frac{n!}{(n - i)!i!} p^i p^{n - i} \\
-             & = \frac{n!}{(n - i)!i!} \left( \frac{\lambda}{n} \right)^i \left( 1 - \frac{\lambda}{n} \right)^{n - i} \\
-             & = \frac{n(n-1)\dots(n-i+1)}{n^i} \frac{\lambda^i}{i!} \frac{(1 - \lambda / n)^n}{(1 - \lambda / n)^i}
-\end{align*}
-For large $n$ and moderate $\lambda$, we have
-\begin{align*}
-    \left(1 - \frac{\lambda}{n}\right)^n \approx e^{-\lambda}.
-\end{align*}
-The left most term approaches 1, and the denominator of the right most term approaches 1. Therefore,
-\begin{equation*}
-    P(X = i) = e^{-\lambda} \frac{\lambda^i}{i!}
-\end{equation*}
-So, if $n$ is large enough and $p$ is enough, the binomial distribution can be approximated with a Poisson distribution.
+\subsection{Modelling events on time intervals}
+This is taken from \cite{ross98}
 
-\subsection{Time Interval Poisson Distributions}
-
-This section is taken from \cite{ross98}.
-
-Suppose we have a random variable, $X$, that represents the number of successes that happen in an interval $t$. Such an event can be modelled with a Poisson distribution and in this section, we discuss how. This will only work if $\lambda$ satisfies the following assumptions:
-
+Let us suppose that the events or success are random and let us suppose that for some positive $\lambda$ the following holds true:
 \begin{itemize}
-\item The probability that exactly one event occurs in the interval $h$ is $\lambda h + o(h)$ where $o(h)$ is any function, $f$ such that $\lim_{h \xrightarrow{} 0} f(h) / h = 0$
-\item The probability that two of more events occur in $h$ is equal to $o(h)$.
-\item For any integers $n, j_1, j_2, \dots, j_n$ and $n$ non-overlapping intervals, if we defined $E_i$ to be the even where exaction $j_i$ events occur in the $i$-th interval, then $E_1, E_2, \dots E_n$ are independent.
+    \item The probability that exactly one event occurs in a time interval $h$ is $\lambda h + o(h)$ where $o(h)$ is any function $f(h)$ such that $\lim_{h \rightarrow 0} \frac{f(h)}{h} = 0$.
+    \item The probability that two events occur in in time interval $h$ is $o(h)$.
+    \item What happens in each sub-interval is independent of what has happened in every other sub-interval.
 \end{itemize}
-From these three assumptions, we can show that the number of events that happen at each interval of length $t$ can be modelled with a Poisson process.
+Suppose we have a interval $[0, t]$. We show that random variables that satisfy the conditions above follow a Poisson distribution.
 
-Let the interval be $[0, t]$. Let $N(t)$ be the number of events that occur in the interval. We want to find the probability mass function $P(N(t) = k)$. First, we begin by breaking down the interval into non-overlapping sub-intervals of length $t / n$.
-
-Let $P(N_1(t) = k)$ be the probability that $k$ sub-intervals have exactly one event happen in them. Let $P(N_2(t) = k)$ be the probability that one of the sub-intervals $N(t) = k$ and at least one of the sub-intervals has two or more events happen in it. Let us first show that $P(N_2(t) = k)$ tends to zero as $n$ approaches infinity.
+Split the interval $[0, t]$ into $n$ sub-intervals of equal length. The length of each sub-interval is $t / n$. The probability $P(X = k)$ is sum of:
+\begin{itemize}
+    \item The probability that $k$ sub-intervals have one and only one event happen in them.
+    \item The probability that $k$ events happen and at least one sub-interval has more than one event happen in it.
+\end{itemize}
+Let us show that the first case can be modelled with a Poisson process. That us call this event $P_1(X = k)$. The probability of this event is,
 \begin{align*}
-    P(N_2(t) = k) & \leq P(\text{At least one sub-interval has 2 or more events}) \\
+    P_1(X = k) & = \lim_{n \rightarrow \infty}\begin{pmatrix} n \\ k \end{pmatrix}(\lambda h + o(h)) ^ k (1 - \lambda h - o(h)) ^ {n - k} \\
+    & = \lim_{n \rightarrow \infty}\begin{pmatrix} n \\ k \end{pmatrix}(\lambda (t / n) + o(t / n)) ^ k (1 - \lambda (t/n) - o(t/n)) ^ {n - k}
+\end{align*}
+The limit of the second term is,
+\begin{align*}
+    \lim_{n \rightarrow \infty} \left( \frac{\lambda t}{n} + o(t / n) \right)^k = & \lim_{n \rightarrow \infty} \left( \frac{1}{n} \left( \lambda t + t\frac{o(t / n)}{t / n} \right) \right)^k \\
+    = & \lim_{n \rightarrow \infty} \left( \frac{\lambda t}{n} \right) ^ k
+\end{align*}
+Since the term containing $\frac{o(t / n)}{t / n}$ approaches 0 by condition 1. Similarly, it follows that,
+\begin{equation*}
+    \lim_{n \rightarrow \infty} (1 - \lambda(t / n) - o(t / n)) ^ {n - k} = \lim_{n \rightarrow \infty}(1 - \lambda (t / n)) ^ {n - k}
+\end{equation*}
+So, using the same logic as we used to show the Poisson distribution is the limit of the binomial distribution, we can also show that,
+\begin{equation*}
+    P_1(X = k) = \frac{\lambda^k}{k!} e^{- \lambda}
+\end{equation*}
+Now, we need to show that the probability that k events happen and at least one sub-interval has more than one event happen in it tends to 0 and $n$ approaches infinity. Let us call this event $P_2(X = i)$. Now,
+\begin{align*}
+    P_2(X = k) & \leq P(\text{At least one sub-interval has 2 or more events}) \\
     & = P(\cup_{i=1}^{n} \text{$i$-th sub-interval has 2 or more events}) \\
     & \leq \sum_{i=1}^{n} P(\text{$i$-th sub-interval has 2 or more events})) \\
     & = \sum_{i=1}^{n} o(t / n) \\
     & = n \, o(t / n) \\
     & = t \frac{o(t / n)}{t / n} \\
 \end{align*}
-By our assumptions above, $o(t / n) / (t / n)$ tends to $0$ as $n$ approaches infinity. Therefore,
+By our assumptions above for $o(h)$, we have $o(t / n) / (t / n)$ tends to $0$ as $n$ approaches infinity. Therefore,
 \begin{equation*}
-    P(N_2(t) = k) \xrightarrow{n \rightarrow{} \infty} 0.
+    P_2(X = k) \xrightarrow{n \rightarrow{} \infty} 0.
 \end{equation*}
-The first and second assumptions imply that the probability of getting $0$ events happen in a sub-interval is,
-\begin{equation*}
-    1 - \lambda h - o(h) - o(h) = 1 - \lambda h - o(h).
-\end{equation*}
-From the third assumption, $P(N_1(t) = k)$ is a binomial distribution. Therefore,
-\begin{align*}
-    P(N_1(t) = k) & =
-    \begin{pmatrix} n \\ k \end{pmatrix}
-    \left( \frac{\lambda t}{n} + o\left( \frac{t}{n} \right) \right) ^ k
-    \left( 1 - \frac{\lambda t}{n} - o\left(\frac{t}{n}\right) \right) ^ {n - k} \\
-    & =
-    \begin{pmatrix} n \\ k \end{pmatrix}
-    \frac{n}{n} \left( \frac{\lambda t}{n} + o\left( \frac{t}{n} \right) \right) ^ k
-    \left( 1 - \frac{n}{n} (\frac{\lambda t}{n} - o\left(\frac{t}{n}\right))\right) ^ {n - k} \\
-    & =
-    \begin{pmatrix} n \\ k \end{pmatrix}
-    \frac{1}{n} \left( \lambda t + t \frac{o(t / n)}{t / n} \right) ^ k
-    \left( 1 - \frac{1}{n} (\lambda t - t\frac{o(t / n)}{t / n} ) \right) ^ {n - k} \\
-\end{align*}
-Since,
-\begin{equation*}
-    \frac{1}{n} \left( \lambda t + t \frac{o(t / n)}{t / n} \right) \xrightarrow{n \rightarrow \infty} \lambda t,
-\end{equation*}
-We get,
-\begin{align*}
-    P(N_1(t) = k) & =
-    \begin{pmatrix} n \\ k \end{pmatrix}
-    \left( \frac{\lambda t}{n} \right)^k
-    \left( 1 - \frac{\lambda t}{n} \right) ^ {n - k} \\
-    & =
-    \begin{pmatrix} n \\ k \end{pmatrix}
-    \left( \frac{\lambda t}{n} \right)^k
-    \frac{(1 - \frac{\lambda t}{n})^n}{(1 - \frac{\lambda t}{n})^k} \\
-    & =
-    \frac{n(n - 1)\dots(n - k + 1)}{n^k}
-    \frac{(\lambda t)^k}{k!}
-    \frac{(1 - \frac{\lambda t}{n})^n}{(1 - \frac{\lambda t}{n})^k} \\
-\end{align*}
-The first term tends to 1 as $n$ approaches infinity. $(1 - \frac{\lambda t}{n})^n$ approaches $e^{-\lambda}$ and $(1 - \frac{\lambda t}{n})^k$ approaches 1 as $n$ approaches infinity. Therefore,
-\begin{equation*}
-    P(N(t) = k) = P(N_1(t) = k) = \frac{(\lambda t) ^ n}{n} e^{-\lambda}.
-\end{equation*}
-Therefore, this is a Poisson process.
+Therefore, we have a Poisson process.
 
 \section{Distributions}
 
@@ -384,6 +341,28 @@ A random variable has a gamma distribution with $\lambda > 0$ and $\alpha > 0$ i
     \end{cases}
 \end{equation}
 Where $\Gamma(\alpha)$ is the gamma function, $\Gamma(\alpha) = \int_0^\infty e^{-y} y^{\alpha - 1} \, dy = (\alpha - 1)\Gamma(\alpha - 1)$.
+
+\subsection{Metrics}
+
+\subsection{Continuous Rank Probability Score}
+
+Suppose we are building a probabilistic model to forecast some known observations $Y' = (y'_1, y'_2, \dots, y'_n)$. Our models learns some probability distribution $Y$ and we want to compare the distribution $Y$ with the observations $Y'$. Since our model is probailistic, the model does not predict exact values, it predicts a distribution values, so how do we compare our distribution of predictions with the observed points? One way would be to take the mean of the predicted distributions and compare these to $Y'$ but by doing this, we lose lots of information from the distribution.
+
+Another way of doing this is by using the continuous rank probability score (CRPS). The formula for CRPS is as follows,
+\begin{equation}
+    \text{CRPS(Y, Y')} =
+    \int_{-\infty}^{-\infty} (F(x) - \mathbf{1}_{x>y} dx).
+\end{equation}
+Where $F$ is the cumulative function of $Y$ and $\mathbf{1}_{x>y}$ is the indicator function,
+\begin{equation}
+    \mathbf{1}_{x > y} =
+    \begin{cases}
+        1 & \text{if} \quad x > y, \\
+        0 & \text{otherwise.}
+    \end{cases}
+\end{equation}
+The indicator function is a valid CDF namely since it satisfies $\lim_{x \rightarrow \infty} \mathbf{1}_{x > y} = 1$.
+
 \bibliography{bibliography}
 \bibliographystyle{ieeetr}
 
