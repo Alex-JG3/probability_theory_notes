@@ -3,6 +3,8 @@
 \usepackage{tikz}
 \usepackage{graphicx} % Required for inserting images
 
+\newtheorem{definition}{Definition}[section]
+
 \title{Probability Theory Notes}
 \author{Alex Gregory}
 \date{July 2023}
@@ -363,6 +365,68 @@ Where $F$ is the cumulative function of $Y$ and $\mathbf{1}_{x>y}$ is the indica
 \end{equation}
 The indicator function is a valid CDF namely since it satisfies $\lim_{x \rightarrow \infty} \mathbf{1}_{x > y} = 1$.
 
+\subsection{Scoring Rules}
+
+\begin{definition}[Scoring Rule]
+    For accessing the quality of probabilistic forecasts.
+\end{definition}
+
+\begin{definition}[Proper Scoring Rule]
+    Suppose we have a forecaster that is learning to predict some probability distribution $P$. Suppose the probability distribution it learns is $Q$. Suppose then the forecasters best guess at $P$ is $Q$. If for some scoring metric $S$, we have $S(Q, Q) \geq S(P, Q)$ with equality if and only if $P = Q$ then a scoring rule is said to be \textit{strictly proper}.
+\end{definition}
+
+\section{Eigenvectors and Eigenvalues}
+
+Eigenvectors are special vectors that when transformed by some matrix still point in the same dimension. Formally, let $A$ be a matrix, $x$ be a vector, and $\lambda$ be a non-zero real number. $x$ is an eigenvector if,
+\begin{equation}
+    A x = \lambda x
+\end{equation}
+This equation has two unknowns, $x$ and $\lambda$. To find these values, we can rewrite these equations as,
+\begin{equation}
+    (A - \lambda I) x = 0.
+\end{equation}
+Where $I$ is the identity matrix. There is a solution to the equation if $A - \lambda I$ has and inverse. This matrix is invertible if it is not singular.
+\begin{equation}
+    | A - \lambda I | = 0.
+\end{equation}
+We removed the unknown variable $x$. This equation can be solved to find the eigenvalues, $\lambda$. Once we have found the eigenvalues, $\lambda$, we can put them back into the original equation to find the eigenvectors, $x$.
+
+\subsection{Example 1}
+
+Find the eigenvalues and eigenvectors of the following matrix.
+\begin{equation}
+    A = \begin{pmatrix}
+        -5 & 2 \\
+        -9 & 6
+    \end{pmatrix}.
+\end{equation}
+Let us start with finding the eigenvalues using the determinant.
+\begin{equation}
+    \det (A - \lambda I)
+    = \det \begin{pmatrix}
+        -5 - \lambda & 2 \\
+        -9           & 6 - \lambda
+    \end{pmatrix}
+    = \lambda ^ 2 - \lambda - 12
+    = 0
+\end{equation}
+The eigenvalues are $\lambda_1 = 4$ and $\lambda_2 = - 3$. The eigenvector for the eigenvalue $\lambda_1 = 4$ is,
+\begin{equation}
+    A - \lambda I x = \begin{pmatrix}
+        - 9 & 2 \\
+        - 9 & 2
+    \end{pmatrix} x
+    = 0
+\end{equation}
+So, the eigenvector in this case is $v_1 = [2, 9]$. The eigenvector for the eigenvalue $\lambda_2 = - 3$ is,
+\begin{equation}
+    A - \lambda I x = \begin{pmatrix}
+        - 2 & 2 \\
+        - 9 & 9
+    \end{pmatrix} x
+    = 0
+\end{equation}
+The eigenvector in this case is $v_2 = [1, 1]$. For this matrix, $A$, we have two eigenvalues and two eigenvectors.
 \bibliography{bibliography}
 \bibliographystyle{ieeetr}
 
