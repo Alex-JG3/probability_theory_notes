@@ -427,6 +427,43 @@ So, the eigenvector in this case is $v_1 = [2, 9]$. The eigenvector for the eige
     = 0
 \end{equation}
 The eigenvector in this case is $v_2 = [1, 1]$. For this matrix, $A$, we have two eigenvalues and two eigenvectors.
+
+\subsection{Example 2}
+
+Find the eigenvalues and eigenvectors of the rotation matrix for a 90 degree rotation. Recall the 90 degree rotation matrix is,
+\begin{equation*}
+    A = \begin{pmatrix}
+        0 & -1 \\
+        1 &  0
+    \end{pmatrix}.
+\end{equation*}
+Let us find the eigenvalues.
+\begin{equation*}
+    \det (A - \lambda I)
+    = \det\begin{pmatrix}
+        - \lambda & - 1 \\
+        1         & - \lambda
+    \end{pmatrix}
+    = \lambda^2 + 1 = 0.
+\end{equation*}
+The eigenvalues for this matrix are not real; they are $\lambda_1 = i$ and $\lambda_2 = -i$. Now let us find the eigenvector for $\lambda_1$.
+\begin{equation*}
+    \begin{pmatrix}
+        - i & -1 \\
+          1 & -i
+    \end{pmatrix} x
+    = 0
+\end{equation*}
+The eigenvector is $v_1 = [i, 1]$. Let us find the eigenvector for the second eigenvalue.
+\begin{equation*}
+    \begin{pmatrix}
+          i & -1 \\
+          1 &  i
+    \end{pmatrix} x
+    = 0
+\end{equation*}
+The eigenvector is $v_2 = [-i, 1]$. For the rotation matrix, there are no real eigenvectors or eigenvectors. This is not surprising since the definition of an eigenvector is a vector that is only scaled when transformed by $A$. Since $A$ is the rotation matrix, all real vectors will be rotated by the rotation matrix and therefore not be eigenvectors.
+
 \bibliography{bibliography}
 \bibliographystyle{ieeetr}
 
